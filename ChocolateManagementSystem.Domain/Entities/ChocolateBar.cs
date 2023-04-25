@@ -1,4 +1,5 @@
 ﻿using ChocolateManagementSystem.Domain.Common;
+using System.Diagnostics;
 
 namespace ChocolateManagementSystem.Domain.Entities
 {
@@ -7,5 +8,9 @@ namespace ChocolateManagementSystem.Domain.Entities
         public string Name { get; set; }
         public decimal Cacao { get; set; }
         public decimal Price { get; set;}
+
+        public int FactoryId { get; set; }
+        public ChocolateFactory Factory { get; set; }
+        public ICollection<Wholesaler> ChocolateBars { get; set; }
     }
 }

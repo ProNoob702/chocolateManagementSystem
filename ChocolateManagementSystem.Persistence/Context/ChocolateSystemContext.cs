@@ -11,6 +11,7 @@ namespace ChocolateManagementSystem.Persistence.Context
         public DbSet<ChocolateBar> ChocolateBars { get; set; }
         public DbSet<ChocolateFactory> ChocolateFactories { get; set; }
         public DbSet<Wholesaler> Wholesalers { get; set; }
+        public DbSet<WholesalerChocolateStock> WholesalersChocolateBarsStocks { get; set; }
 
     }
 }
