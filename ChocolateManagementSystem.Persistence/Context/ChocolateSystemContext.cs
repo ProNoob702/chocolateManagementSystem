@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChocolateManagementSystem.Persistence.Context
 {
-    public class ChocolateSystemContext : DbContext
+    public class ChocolateSystemContext : DbContext, IChocolateSystemContext
     {
 
         public ChocolateSystemContext(DbContextOptions<ChocolateSystemContext> options) : base(options)  { }
