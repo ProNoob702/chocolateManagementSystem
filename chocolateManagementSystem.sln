@@ -3,7 +3,48 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChocolateManagementSystem.Domain", "ChocolateManagementSystem.Domain\ChocolateManagementSystem.Domain.csproj", "{E8E33EFA-E70A-4DEF-8393-0D0F194A461C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChocolateManagementSystem.Application", "ChocolateManagementSystem.Application\ChocolateManagementSystem.Application.csproj", "{EA77C4FB-D1D7-41CC-835B-C323DB923086}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChocolateManagementSystem.Infrastructure", "ChocolateManagementSystem.Infrastructure\ChocolateManagementSystem.Infrastructure.csproj", "{D1498DF4-9B73-49DF-AF8F-E7EE9A8F3875}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChocolateManagementSystem.API", "ChocolateManagementSystem.API\ChocolateManagementSystem.API.csproj", "{5C4891DE-C54E-4284-83BD-3C157374A19A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChocolateManagementSystem.Persistence", "ChocolateManagementSystem.Persistence\ChocolateManagementSystem.Persistence.csproj", "{0E2B9A41-E441-4719-8F56-F6DEFAEE0A06}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{844F35DE-FBA5-445D-B6FC-7CC70E80D5B9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8E33EFA-E70A-4DEF-8393-0D0F194A461C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E33EFA-E70A-4DEF-8393-0D0F194A461C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E33EFA-E70A-4DEF-8393-0D0F194A461C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E33EFA-E70A-4DEF-8393-0D0F194A461C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA77C4FB-D1D7-41CC-835B-C323DB923086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA77C4FB-D1D7-41CC-835B-C323DB923086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA77C4FB-D1D7-41CC-835B-C323DB923086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA77C4FB-D1D7-41CC-835B-C323DB923086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1498DF4-9B73-49DF-AF8F-E7EE9A8F3875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1498DF4-9B73-49DF-AF8F-E7EE9A8F3875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1498DF4-9B73-49DF-AF8F-E7EE9A8F3875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1498DF4-9B73-49DF-AF8F-E7EE9A8F3875}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C4891DE-C54E-4284-83BD-3C157374A19A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C4891DE-C54E-4284-83BD-3C157374A19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C4891DE-C54E-4284-83BD-3C157374A19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C4891DE-C54E-4284-83BD-3C157374A19A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2B9A41-E441-4719-8F56-F6DEFAEE0A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E2B9A41-E441-4719-8F56-F6DEFAEE0A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E2B9A41-E441-4719-8F56-F6DEFAEE0A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E2B9A41-E441-4719-8F56-F6DEFAEE0A06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
