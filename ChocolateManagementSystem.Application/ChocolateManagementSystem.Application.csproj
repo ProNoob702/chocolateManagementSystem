@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\WholesalerChocolateStocks\CreateChocolateStock\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ChocolateManagementSystem.Domain\ChocolateManagementSystem.Domain.csproj" />
   </ItemGroup>
 

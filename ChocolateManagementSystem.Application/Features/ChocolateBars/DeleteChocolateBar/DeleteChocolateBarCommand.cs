@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using ChocolateManagementSystem.Application.Common.Interfaces;
-using ChocolateManagementSystem.Domain.Entities;
+﻿using ChocolateManagementSystem.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
