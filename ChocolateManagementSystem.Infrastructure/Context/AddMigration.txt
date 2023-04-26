@@ -1,0 +1,7 @@
+﻿cd ChocolateManagementSystem.API
+dotnet ef --project ../ChocolateManagementSystem.Infrastructure --startup-project ./ migrations add "migration" --context ChocolateSystemContext
+
+//update
+dotnet ef --project ../ChocolateManagementSystem.Infrastructure --startup-project ./ database update --context ChocolateSystemContext
+
+dotnet ef --project ../ChocolateManagementSystem.Infrastructure --startup-project ./ migrations remove

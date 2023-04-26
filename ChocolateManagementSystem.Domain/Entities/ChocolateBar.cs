@@ -11,6 +11,6 @@ namespace ChocolateManagementSystem.Domain.Entities
 
         public int FactoryId { get; set; }
         public ChocolateFactory Factory { get; set; }
-        public ICollection<Wholesaler> ChocolateBars { get; set; }
+        public ICollection<Wholesaler> Wholesalers { get; set; }
     }
 }
