@@ -3,9 +3,9 @@ using ChocolateManagementSystem.Domain.Entities;
 
 namespace ChocolateManagementSystem.Application.Features.ChocolateBars.CreateChocolateBar;
 
-public class ChocolateBarDTOMapper : Profile
+public class CreateChocolateBarMapper : Profile
 {
-    public ChocolateBarDTOMapper()
+    public CreateChocolateBarMapper()
     {
         CreateMap<CreateChocolateBarCommand, ChocolateBar>();
     }
