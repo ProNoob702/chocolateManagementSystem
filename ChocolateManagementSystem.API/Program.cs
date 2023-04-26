@@ -1,5 +1,7 @@
 using ChocolateManagementSystem.Application;
 using ChocolateManagementSystem.Infrastructure;
+using ChocolateManagementSystem.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureInfrastructure(builder.Configuration);
-builder.Services.ConfigureApplication(builder.Configuration);
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -24,8 +26,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.MapControllers();
+
+// Run migrations on start
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ChocolateSystemContext>();
+    context.Database.Migrate();
+}
 
 app.Run();
