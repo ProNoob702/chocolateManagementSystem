@@ -1,4 +1,6 @@
-﻿using ChocolateManagementSystem.Persistence.Context;
+﻿using AutoMapper;
+using ChocolateManagementSystem.Application.Common.Interfaces;
+using ChocolateManagementSystem.Domain.Entities;
 using MediatR;
 
 namespace ChocolateManagementSystem.Application.Features.ChocolateBars.CreateChocolateBar;
@@ -14,23 +16,20 @@ public class CreateChocolateBarCommand : IRequest<int>
 public class CreateChocolateBarCommandHandler : IRequestHandler<CreateChocolateBarCommand, int>
 {
     private readonly IChocolateSystemContext _context;
+    private readonly IMapper _mapper;
 
-    public CreateChocolateBarCommandHandler(IChocolateSystemContext context)
+    public CreateChocolateBarCommandHandler(IChocolateSystemContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<int> Handle(CreateChocolateBarCommand request, CancellationToken cancellationToken)
     {
-        var entity = new TodoList();
-
-        entity.Title = request.Title;
-
-        _context.TodoLists.Add(entity);
-
+        var newChocolateBar = _mapper.Map<ChocolateBar>(request);
+        _context.ChocolateBars.Add(newChocolateBar);
         await _context.SaveChangesAsync(cancellationToken);
-
-        return entity.Id;
+        return newChocolateBar.Id;
     }
 }
 
