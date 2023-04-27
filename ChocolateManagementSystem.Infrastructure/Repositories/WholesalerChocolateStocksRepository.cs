@@ -11,9 +11,9 @@ public class WholesalerChocolateStocksRepository : GenericRepository<WholesalerC
     {
     }
 
-    public async Task<WholesalerChocolateStock> FindWholesalerChocolateStock(int WholesalerId, int ChocolateBarId, CancellationToken cancellationToken)
+    public async Task<WholesalerChocolateStock?> FindWholesalerChocolateStock(int WholesalerId, int ChocolateBarId, CancellationToken cancellationToken)
     {
-       return await _context.WholesalersChocolateBarsStocks.FirstAsync(x => x.WholesalerId == WholesalerId && x.ChocolateBarId == ChocolateBarId, cancellationToken);
+       return await _context.WholesalersChocolateBarsStocks.FirstOrDefaultAsync(x => x.WholesalerId == WholesalerId && x.ChocolateBarId == ChocolateBarId, cancellationToken);
     }
 
     public async Task<bool> WholesalerHasEnoughStock(int WholesalerId, int ChocolateBarId, int requestedQuantity, CancellationToken cancellationToken)

@@ -74,7 +74,7 @@ public class RequestChocolateQuoteQueryHandler : IRequestHandler<RequestChocolat
 
     private int FetchDiscount(int totalQuantity)
     {
-        if(totalQuantity > 10) {
+        if(totalQuantity > 10 && totalQuantity < 20) {
             return 10;
         } 
         else if (totalQuantity > 20)

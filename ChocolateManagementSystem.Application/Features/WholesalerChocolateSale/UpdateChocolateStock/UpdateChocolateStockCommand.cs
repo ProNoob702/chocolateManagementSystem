@@ -23,7 +23,7 @@ public class UpdateChocolateStockCommandHandler : IRequestHandler<UpdateChocolat
     {
         var entity = await _wholesalerChocolateStocksRepository.FindWholesalerChocolateStock(request.WholesalerId, request.ChocolateBarId, cancellationToken);
 
-        entity.Stock = request.Stock;
+        entity!.Stock = request.Stock;
 
         await _wholesalerChocolateStocksRepository.UpdateAsync(entity, cancellationToken);
     }
