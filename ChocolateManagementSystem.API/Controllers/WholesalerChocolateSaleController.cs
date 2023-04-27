@@ -1,4 +1,5 @@
 ﻿using ChocolateManagementSystem.Application.Features.WholesalerChocolateSale.CreateChocolateStock;
+using ChocolateManagementSystem.Application.Features.WholesalerChocolateSale.RequestChocolateQuote;
 using ChocolateManagementSystem.Application.Features.WholesalerChocolateSale.UpdateChocolateStock;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,13 @@ namespace ChocolateManagementSystem.API.Controllers
         {
             await _mediator.Send(payload);
             return NoContent();
+        }
+
+        [HttpPost("RequestQuote")]
+        public async Task<IActionResult> RequestQuote(RequestChocolateQuoteQuery payload)
+        {
+            var requestFeedback = await _mediator.Send(payload);
+            return Ok(requestFeedback);
         }
     }
 }
