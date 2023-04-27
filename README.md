@@ -2,10 +2,11 @@
 This project is Chocolate factory and wholesale management system sample built on Clean Architecture.
 Database is filled with data after application start.
 
-# Design Pattern
+# Design Patterns
 - CQRS design pattern
 - Mediator design pattern
 - Repository design pattern
+- Dependency Injection pattern
 
 # Environment 
 - .NET 7
