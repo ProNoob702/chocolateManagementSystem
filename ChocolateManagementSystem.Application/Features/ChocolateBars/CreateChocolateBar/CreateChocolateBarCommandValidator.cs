@@ -1,17 +1,19 @@
 ﻿using ChocolateManagementSystem.Application.Common.Interfaces;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChocolateManagementSystem.Application.Features.ChocolateBars.CreateChocolateBar;
 
 public class CreateChocolateBarCommandValidator : AbstractValidator<CreateChocolateBarCommand> 
 { 
 
-    private readonly IChocolateSystemContext _context;
+    private readonly IChocolateBarsRepository _chocolateBarsRepository;
+    private readonly IChocolateFactoryRepository _chocolateFactoryRepository;
 
-    public CreateChocolateBarCommandValidator(IChocolateSystemContext context)
+
+    public CreateChocolateBarCommandValidator(IChocolateBarsRepository chocolateBarsRepository, IChocolateFactoryRepository chocolateFactoryRepository)
     {
-        _context = context;
+        _chocolateBarsRepository = chocolateBarsRepository;
+        _chocolateFactoryRepository = chocolateFactoryRepository;
 
         RuleFor(v => v.Name)
             .NotEmpty().WithMessage("Name is required.")
@@ -33,11 +35,11 @@ public class CreateChocolateBarCommandValidator : AbstractValidator<CreateChocol
 
     public async Task<bool> BeUniqueName(string newChocolateName, CancellationToken cancellationToken)
     {
-        return await _context.ChocolateBars.AllAsync(x => x.Name != newChocolateName, cancellationToken);
+        return await _chocolateBarsRepository.NameDoesntExists(newChocolateName, cancellationToken);
     }
 
     public async Task<bool> FactoryShouldExists(int factoryId, CancellationToken cancellationToken)
     {
-        return await _context.ChocolateFactories.FirstOrDefaultAsync(x => x.Id == factoryId, cancellationToken) != null;
+        return await _chocolateFactoryRepository.GetByIdAsync(factoryId, cancellationToken) != null;
     }
 }

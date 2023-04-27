@@ -15,20 +15,19 @@ public class CreateChocolateBarCommand : IRequest<int>
 
 public class CreateChocolateBarCommandHandler : IRequestHandler<CreateChocolateBarCommand, int>
 {
-    private readonly IChocolateSystemContext _context;
     private readonly IMapper _mapper;
+    private readonly IChocolateBarsRepository _chocolateBarsRepository;
 
-    public CreateChocolateBarCommandHandler(IChocolateSystemContext context, IMapper mapper)
+    public CreateChocolateBarCommandHandler(IChocolateBarsRepository chocolateBarsRepository, IMapper mapper)
     {
-        _context = context;
+        _chocolateBarsRepository = chocolateBarsRepository;
         _mapper = mapper;
     }
 
     public async Task<int> Handle(CreateChocolateBarCommand request, CancellationToken cancellationToken)
     {
         var newChocolateBar = _mapper.Map<ChocolateBar>(request);
-        _context.ChocolateBars.Add(newChocolateBar);
-        await _context.SaveChangesAsync(cancellationToken);
+        newChocolateBar = await _chocolateBarsRepository.AddAsync(newChocolateBar, cancellationToken);
         return newChocolateBar.Id;
     }
 }

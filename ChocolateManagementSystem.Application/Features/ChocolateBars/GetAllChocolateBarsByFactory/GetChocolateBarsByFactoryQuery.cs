@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using ChocolateManagementSystem.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace ChocolateManagementSystem.Application.Features.ChocolateBars.GetAllChocolateBarsByFactory;
 
@@ -12,20 +10,18 @@ public class GetChocolateBarsByFactoryQuery : IRequest<GetChocolateBarsByFactory
 
 public class GetChocolateBarsByFactoryQueryHandler : IRequestHandler<GetChocolateBarsByFactoryQuery, GetChocolateBarsByFactoryResponse>
 {
-    private readonly IChocolateSystemContext _context;
+    private readonly IChocolateBarsRepository _chocolateBarsRepository;
     private readonly IMapper _mapper;
 
-    public GetChocolateBarsByFactoryQueryHandler(IChocolateSystemContext context, IMapper mapper)
+    public GetChocolateBarsByFactoryQueryHandler(IChocolateBarsRepository chocolateBarsRepository, IMapper mapper)
     {
-        _context = context;
+        _chocolateBarsRepository = chocolateBarsRepository;
         _mapper = mapper;
     }
 
     public async Task<GetChocolateBarsByFactoryResponse> Handle(GetChocolateBarsByFactoryQuery request, CancellationToken cancellationToken)
     {
-        var chocolates = await _context.ChocolateBars.AsNoTracking()
-            .Include(x => x.Factory)
-            .OrderBy(x => x.Name).ToListAsync();
+        var chocolates = await _chocolateBarsRepository.FetchAllWithFactoryFilled(cancellationToken);
 
         var dic = new Dictionary<string, List<ChocolateBarDTO>>();
 

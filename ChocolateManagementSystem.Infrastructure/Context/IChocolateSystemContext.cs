@@ -2,7 +2,7 @@
 using ChocolateManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChocolateManagementSystem.Application.Common.Interfaces;
+namespace ChocolateManagementSystem.Infrastructure.Context;
 
 public interface IChocolateSystemContext
 {

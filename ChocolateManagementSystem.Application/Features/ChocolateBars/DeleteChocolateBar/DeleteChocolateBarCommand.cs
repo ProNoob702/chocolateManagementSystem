@@ -1,6 +1,5 @@
 ﻿using ChocolateManagementSystem.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChocolateManagementSystem.Application.Features.ChocolateBars.DeleteChocolateBar;
 
@@ -11,19 +10,16 @@ public class DeleteChocolateBarCommand : IRequest
 
 public class DeleteChocolateBarCommandHandler : IRequestHandler<DeleteChocolateBarCommand>
 {
-    private readonly IChocolateSystemContext _context;
+    private readonly IChocolateBarsRepository _chocolateBarsRepository;
 
-    public DeleteChocolateBarCommandHandler(IChocolateSystemContext context)
+    public DeleteChocolateBarCommandHandler(IChocolateBarsRepository chocolateBarsRepository)
     {
-        _context = context;
+        _chocolateBarsRepository = chocolateBarsRepository;
     }
 
     public async Task Handle(DeleteChocolateBarCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.ChocolateBars.FirstAsync(x => x.Id == request.ChocolateBarId, cancellationToken);
-
-        _context.ChocolateBars.Remove(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
+        var entity = await _chocolateBarsRepository.GetByIdAsync(request.ChocolateBarId, cancellationToken);
+        await _chocolateBarsRepository.DeleteAsync(entity!, cancellationToken);
     }
 }

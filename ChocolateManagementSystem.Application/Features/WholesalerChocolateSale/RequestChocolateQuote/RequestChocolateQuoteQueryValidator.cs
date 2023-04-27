@@ -1,17 +1,19 @@
 ﻿using ChocolateManagementSystem.Application.Common.Interfaces;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChocolateManagementSystem.Application.Features.WholesalerChocolateSale.RequestChocolateQuote;
 
 public class RequestChocolateQuoteQueryValidator : AbstractValidator<RequestChocolateQuoteQuery>
 {
+    private readonly IWholesalersRepository _wholesalersRepository;
+    private readonly IWholesalerChocolateStocksRepository _wholesalerChocolateStocksRepository;
 
-    private readonly IChocolateSystemContext _context;
 
-    public RequestChocolateQuoteQueryValidator(IChocolateSystemContext context)
+    public RequestChocolateQuoteQueryValidator(IWholesalersRepository wholesalersRepository, IWholesalerChocolateStocksRepository wholesalerChocolateStocksRepository)
     {
-        _context = context;
+
+        _wholesalersRepository = wholesalersRepository;
+        _wholesalerChocolateStocksRepository = wholesalerChocolateStocksRepository;
 
         RuleFor(v => v.WholesalerId)
            .NotNull().WithMessage("WholesalerId is required.")
@@ -23,13 +25,12 @@ public class RequestChocolateQuoteQueryValidator : AbstractValidator<RequestChoc
             .Must(NoDuplicatesInOrderedItems).WithMessage("The specified items should not contain duplicates.");
 
         RuleForEach(model => model.OrderedItems)
-            .SetValidator(x => new OrderItemValidator(_context, x.WholesalerId));
-        
+            .SetValidator(x => new OrderItemValidator(_wholesalerChocolateStocksRepository, x.WholesalerId));
     }
 
     public async Task<bool> WholesalerIdShouldExists(int wholesalerId, CancellationToken cancellationToken)
     {
-        return await _context.Wholesalers.FirstOrDefaultAsync(x => x.Id == wholesalerId, cancellationToken) != null;
+        return await _wholesalersRepository.GetByIdAsync(wholesalerId, cancellationToken) != null;
     }
 
     public bool ShouldContainSomeItems(IEnumerable<OrderItem> OrderedItems)
@@ -58,17 +59,17 @@ public class RequestChocolateQuoteQueryValidator : AbstractValidator<RequestChoc
 public class OrderItemValidator : AbstractValidator<OrderItem>
 {
 
-    private readonly IChocolateSystemContext _context;
+    private readonly IWholesalerChocolateStocksRepository _wholesalerChocolateStocksRepository;
     private readonly int _wholesalerId;
 
-    public OrderItemValidator(IChocolateSystemContext context)
+    public OrderItemValidator(IWholesalerChocolateStocksRepository wholesalerChocolateStocksRepository)
     {
-        _context = context;
+        _wholesalerChocolateStocksRepository = wholesalerChocolateStocksRepository;
     }
 
-    public OrderItemValidator(IChocolateSystemContext context, int wholesalerId)
+    public OrderItemValidator(IWholesalerChocolateStocksRepository wholesalerChocolateStocksRepository, int wholesalerId)
     {
-        _context = context;
+        _wholesalerChocolateStocksRepository = wholesalerChocolateStocksRepository;
         _wholesalerId = wholesalerId;
 
         RuleFor(v => v.ChocolateBarId)
@@ -80,17 +81,13 @@ public class OrderItemValidator : AbstractValidator<OrderItem>
 
     }
 
-
     public async Task<bool> WholesalerShouldHaveChocolate(int chocolateBarId, CancellationToken cancellationToken)
     {
-        return await _context.WholesalersChocolateBarsStocks.FirstOrDefaultAsync(x => x.ChocolateBarId == chocolateBarId && x.WholesalerId == _wholesalerId, cancellationToken) != null;
+        return await _wholesalerChocolateStocksRepository.FindWholesalerChocolateStock(_wholesalerId, chocolateBarId, cancellationToken) != null;
     }
 
     public async Task<bool> WholeSalerShouldHaveStock(OrderItem item, CancellationToken cancellationToken)
     {
-        return await _context.WholesalersChocolateBarsStocks
-            .FirstOrDefaultAsync(
-            x => x.ChocolateBarId == item.ChocolateBarId && x.WholesalerId == _wholesalerId && x.Stock > item.Quantity
-            , cancellationToken) != null;
+        return await _wholesalerChocolateStocksRepository.WholesalerHasEnoughStock(_wholesalerId, item.ChocolateBarId, item.Quantity, cancellationToken);
     }
 }

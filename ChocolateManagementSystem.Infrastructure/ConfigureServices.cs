@@ -1,5 +1,6 @@
 using ChocolateManagementSystem.Application.Common.Interfaces;
 using ChocolateManagementSystem.Infrastructure.Context;
+using ChocolateManagementSystem.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,11 @@ public static class ConfigureServices
             options.UseSqlServer(configuration.GetConnectionString("SQLDatabase"));
         });
 
-        services.AddScoped<IChocolateSystemContext, ChocolateSystemContext>();
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+        services.AddScoped<IChocolateBarsRepository, ChocolateBarsRepository>();
+        services.AddScoped<IChocolateFactoryRepository, ChocolateFactoryRepository>();
+        services.AddScoped<IWholesalersRepository, WholesalersRepository>();
+        services.AddScoped<IWholesalerChocolateStocksRepository, WholesalerChocolateStocksRepository>();
     }
 }

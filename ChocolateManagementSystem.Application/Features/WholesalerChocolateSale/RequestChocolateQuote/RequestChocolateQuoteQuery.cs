@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ChocolateManagementSystem.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChocolateManagementSystem.Application.Features.WholesalerChocolateSale.RequestChocolateQuote;
 
@@ -19,12 +18,12 @@ public class RequestChocolateQuoteQuery: IRequest<RequestChocolateQuoteResponse>
 
 public class RequestChocolateQuoteQueryHandler : IRequestHandler<RequestChocolateQuoteQuery, RequestChocolateQuoteResponse>
 {
-    private readonly IChocolateSystemContext _context;
+    private readonly IChocolateBarsRepository _chocolateBarsRepository;
     private readonly IMapper _mapper;
 
-    public RequestChocolateQuoteQueryHandler(IChocolateSystemContext context, IMapper mapper)
+    public RequestChocolateQuoteQueryHandler(IChocolateBarsRepository chocolateBarsRepository, IMapper mapper)
     {
-        _context = context;
+        _chocolateBarsRepository = chocolateBarsRepository;
         _mapper = mapper;
     }
 
@@ -43,7 +42,7 @@ public class RequestChocolateQuoteQueryHandler : IRequestHandler<RequestChocolat
         var discount = FetchDiscount(totalQuantity);
 
         // fetch chocolate prices 
-        var dbChocolateBars = await _context.ChocolateBars.Where(x => chocolateBarsIds.Contains(x.Id)).ToListAsync();
+        var dbChocolateBars = await _chocolateBarsRepository.FetchByIds(chocolateBarsIds, cancellationToken);
         var chocolatePriceDic = new Dictionary<int, decimal>();
         foreach (var c in dbChocolateBars)
         {

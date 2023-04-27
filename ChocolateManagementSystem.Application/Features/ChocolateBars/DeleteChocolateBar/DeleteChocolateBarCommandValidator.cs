@@ -1,17 +1,16 @@
 ﻿using ChocolateManagementSystem.Application.Common.Interfaces;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChocolateManagementSystem.Application.Features.ChocolateBars.DeleteChocolateBar;
 
 public class DeleteChocolateBarCommandValidator : AbstractValidator<DeleteChocolateBarCommand>
 {
 
-    private readonly IChocolateSystemContext _context;
+    private readonly IChocolateBarsRepository _chocolateBarsRepository;
 
-    public DeleteChocolateBarCommandValidator(IChocolateSystemContext context)
+    public DeleteChocolateBarCommandValidator(IChocolateBarsRepository chocolateBarsRepository)
     {
-        _context = context;
+       _chocolateBarsRepository = chocolateBarsRepository;
 
         RuleFor(v => v.ChocolateBarId)
             .NotNull().WithMessage("ChocolateBarId is required.")
@@ -20,6 +19,6 @@ public class DeleteChocolateBarCommandValidator : AbstractValidator<DeleteChocol
 
     public async Task<bool> ChocolateBarIdShouldExists(int chocolateId, CancellationToken cancellationToken)
     {
-        return await _context.ChocolateBars.FirstOrDefaultAsync(x => x.Id == chocolateId, cancellationToken) != null;
+        return await _chocolateBarsRepository.GetByIdAsync(chocolateId, cancellationToken) != null;
     }
 }

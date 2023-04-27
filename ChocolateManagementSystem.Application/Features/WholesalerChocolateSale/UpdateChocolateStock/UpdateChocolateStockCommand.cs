@@ -1,6 +1,5 @@
 ﻿using ChocolateManagementSystem.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChocolateManagementSystem.Application.Features.WholesalerChocolateSale.UpdateChocolateStock;
 
@@ -13,19 +12,19 @@ public class UpdateChocolateStockCommand : IRequest
 
 public class UpdateChocolateStockCommandHandler : IRequestHandler<UpdateChocolateStockCommand>
 {
-    private readonly IChocolateSystemContext _context;
+    private readonly IWholesalerChocolateStocksRepository _wholesalerChocolateStocksRepository;
 
-    public UpdateChocolateStockCommandHandler(IChocolateSystemContext context)
+    public UpdateChocolateStockCommandHandler(IWholesalerChocolateStocksRepository wholesalerChocolateStocksRepository)
     {
-        _context = context;
+       _wholesalerChocolateStocksRepository = wholesalerChocolateStocksRepository;
     }
 
     public async Task Handle(UpdateChocolateStockCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.WholesalersChocolateBarsStocks.FirstAsync(x => x.WholesalerId == request.WholesalerId && x.ChocolateBarId == request.ChocolateBarId, cancellationToken);
+        var entity = await _wholesalerChocolateStocksRepository.FindWholesalerChocolateStock(request.WholesalerId, request.ChocolateBarId, cancellationToken);
 
         entity.Stock = request.Stock;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _wholesalerChocolateStocksRepository.UpdateAsync(entity, cancellationToken);
     }
 }

@@ -12,23 +12,21 @@ public class CreateChocolateStockCommand : IRequest<int>
     public int Stock { get; set;}
 }
 
-
 public class CreateChocolateStockCommandHandler : IRequestHandler<CreateChocolateStockCommand, int>
 {
-    private readonly IChocolateSystemContext _context;
+    private readonly IWholesalerChocolateStocksRepository _wholesalerChocolateStocksRepository;
     private readonly IMapper _mapper;
 
-    public CreateChocolateStockCommandHandler(IChocolateSystemContext context, IMapper mapper)
+    public CreateChocolateStockCommandHandler(IWholesalerChocolateStocksRepository wholesalerChocolateStocksRepository, IMapper mapper)
     {
-        _context = context;
+        _wholesalerChocolateStocksRepository = wholesalerChocolateStocksRepository;
         _mapper = mapper;
     }
 
     public async Task<int> Handle(CreateChocolateStockCommand request, CancellationToken cancellationToken)
     {
         var newStock = _mapper.Map<WholesalerChocolateStock>(request);
-        _context.WholesalersChocolateBarsStocks.Add(newStock);
-        await _context.SaveChangesAsync(cancellationToken);
+        newStock = await _wholesalerChocolateStocksRepository.AddAsync(newStock, cancellationToken);
         return newStock.Id;
     }
 }
